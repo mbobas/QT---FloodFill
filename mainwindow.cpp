@@ -84,7 +84,6 @@ void MainWindow::drawPixel(int x, int y, unsigned char red, unsigned char green,
         wsk[4*x+1] = green;
         wsk[4*x+2] = red;
     }
-
 }
 
 // zamalowuje odcinek (x0,y0 -> x1,y1) na kolor (red,green,blue), domyślnie na biało
@@ -108,13 +107,42 @@ void MainWindow::draw_section(int x1, int y1, int x2, int y2, unsigned char red,
         for(int i=0; i<dl ; i++){
 
             y = a*x+b;
-            drawPixel(round(x), round(y));
+            drawPixel(round(x), round(y), red, green, blue);
             x+=g;
         }
 }
 
-
 //*****************************************************************************************************
+
+
+void MainWindow::mousePressEvent(QMouseEvent *event)
+{
+    //int x,y;
+    on_XChanged(x0);
+    on_YChanged(y0);
+
+    // Pobieramy współrzędne punktu kliknięcia
+    x0 = event->x();
+    y0 = event->y();
+    // Współrzędne obliczane są względem głównego okna programu
+    // aby uzyskać współrzędne względem obszaru rysowania (ramki) musimy je przesunąć
+    // tak aby punkt (0,0) pokrywał się z lewym górnym naroznikiem obszaru rysowania
+    x0 = x0 - startX;
+    y0 = y0 - startY;
+
+    // Jeżeli wciśnięto lewy przycisk to
+    if(event->button() == Qt::LeftButton)
+    {
+        if (option == 1){
+           //drawPixel(x1,y1);
+        } else if (option ==2) {
+           floodFill(x0,y0,colorToChangeR,colorToChangeG,colorToChangeB,newColorR,newColorG,newColorB);
+        }
+    }
+
+    update();
+}
+
 
 // Metoda wywoływana po wciśnięciu przycisku myszy
 // Inne metody związane z obsługą myszy to
@@ -138,69 +166,25 @@ void MainWindow::mouseReleaseEvent(QMouseEvent *event)
     // Jeżeli wciśnięto lewy przycisk to zamolowujemy piksel na biało
     if(event->button() == Qt::LeftButton)
     {
-        drawPixel(x1,y1);
+        //
     }
     // a w przeciwnym wypadku na czerwono
     else
     {
-         floodFill(x0,y0,0,0,0,153,53,28);
+
     }
 
-    draw_section(x0,y0,x1,y1,255,0,0);
+
+
+    if (option == 1){
+       draw_section(x0,y0,x1,y1,sectionColorR,sectionColorG,sectionColorB);
+    }
 
     update();
 }
 //*****************************************************************************************************
 
-void MainWindow::mousePressEvent(QMouseEvent *event)
-{
-    //int x,y;
-    on_XChanged(x0);
-    on_YChanged(y0);
-
-    // Pobieramy współrzędne punktu kliknięcia
-    x0 = event->x();
-    y0 = event->y();
-    // Współrzędne obliczane są względem głównego okna programu
-    // aby uzyskać współrzędne względem obszaru rysowania (ramki) musimy je przesunąć
-    // tak aby punkt (0,0) pokrywał się z lewym górnym naroznikiem obszaru rysowania
-    x0 = x0 - startX;
-    y0 = y0 - startY;
-
-    // Jeżeli wciśnięto lewy przycisk to zamolowujemy piksel na biało
-    if(event->button() == Qt::LeftButton)
-    {
-        drawPixel(x0,y0);
-    }
-    // a w przeciwnym wypadku na czerwono
-    else
-    {
-
-
-    }
-
-    update();
-}
-
 //sprawdzenie czy piksel x,y ma odpowiedni kolor;
-int MainWindow::check_color(int x, int y, int red, int green, int blue)
-{
-
-    unsigned char *wsk;
-
-    if((x>=0)&&(y>=0)&&(x<width)&&(y<height))
-    {
-        wsk = img->bits();
-        if ((wsk[width*4*y + 4*x] == blue ) && (wsk[width*4*y + 4*x+1] == green ) && (wsk[width*4*y + 4*x+2] == red )) {
-            return(1);
-        } else {
-            return(0);
-        }
-    }
-    else
-        return(0);
-}
-
 int MainWindow::checkColorWithColorPicker(int x,int y, int red, int green, int blue){
     if((x>=0)&&(y>=0)&&(x<width)&&(y<height)){
          QRgb color = img->pixel(x,y);
@@ -217,7 +201,6 @@ int MainWindow::checkColorWithColorPicker(int x,int y, int red, int green, int b
         return(0);
 }
 
-
 //wypełnianie kolorem
 void MainWindow::floodFill(int x, int y,int colorToChangeR, int colorToChangeG, int colorToChangeB, int newColorR, int newColorG, int newColorB)
 {
@@ -233,8 +216,8 @@ void MainWindow::floodFill(int x, int y,int colorToChangeR, int colorToChangeG, 
         yActive = sy.top();
         sx.pop();
         sy.pop();
-      if (checkColorWithColorPicker(xActive,yActive, 0,0,0)){
-              drawPixel(xActive,yActive,51, 153, 51);
+      if (checkColorWithColorPicker(xActive,yActive, colorToChangeR,colorToChangeG,colorToChangeB)){
+              drawPixel(xActive,yActive,newColorR, newColorG, newColorB);
               sx.push(xActive-1);
               sy.push(yActive);
 
@@ -272,20 +255,81 @@ void MainWindow::on_cleanButton_clicked()
 
 void MainWindow::on_XChanged(int x0)
 {
-   ui->labelX->setText(QString::number(x0));
+   //ui->labelX->setText(QString::number(x0));
 }
 
 void MainWindow::on_YChanged(int x0)
 {
-   ui->labelY->setText(QString::number(y0));
+  // ui->labelY->setText(QString::number(y0));
 }
 void MainWindow::on_X1Changed(int x0)
 {
-   ui->labelX_2->setText(QString::number(x1));
+   //ui->labelX_2->setText(QString::number(x1));
 }
 
 void MainWindow::on_Y1Changed(int x0)
 {
-   ui->labelY_2->setText(QString::number(y1));
+   //ui->labelY_2->setText(QString::number(y1));
 }
 
+
+void MainWindow::on_radioButton_clicked()
+{
+    option=1;
+}
+
+void MainWindow::on_wypelnienie_clicked()
+{
+    option=2;
+}
+
+//wybieramy kolor tła
+void MainWindow::on_pushButton_2_clicked()
+{
+    QColor color = QColorDialog::getColor();
+    if(color.isValid()) {
+        colorToChangeR = color.red();
+        colorToChangeG = color.green();
+        colorToChangeB = color.blue();
+    }
+}
+
+//wybieramy kolor wypełnienia
+void MainWindow::on_pushButton_clicked()
+{
+    QColor color = QColorDialog::getColor();
+    if(color.isValid()) {
+        newColorR = color.red();
+        newColorG = color.green();
+        newColorB = color.blue();
+    }
+}
+
+//wybieramy kolor odcinka
+void MainWindow::on_pushButton_3_clicked()
+{
+    QColor color = QColorDialog::getColor();
+    if(color.isValid()) {
+        sectionColorR = color.red();
+        sectionColorG = color.green();
+        sectionColorB = color.blue();
+    }
+}
+
+//int MainWindow::check_color(int x, int y, int red, int green, int blue)
+//{
+
+//    unsigned char *wsk;
+
+//    if((x>=0)&&(y>=0)&&(x<width)&&(y<height))
+//    {
+//        wsk = img->bits();
+//        if ((wsk[width*4*y + 4*x] == blue ) && (wsk[width*4*y + 4*x+1] == green ) && (wsk[width*4*y + 4*x+2] == red )) {
+//            return(1);
+//        } else {
+//            return(0);
+//        }
+//    }
+//    else
+//        return(0);
+//}

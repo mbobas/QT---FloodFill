@@ -68,108 +68,56 @@
       <string>Czyść</string>
      </property>
     </widget>
-    <widget class="QLabel" name="label_x">
+    <widget class="QRadioButton" name="radioButton">
      <property name="geometry">
       <rect>
-       <x>30</x>
-       <y>169</y>
-       <width>16</width>
-       <height>16</height>
+       <x>10</x>
+       <y>30</y>
+       <width>82</width>
+       <height>17</height>
       </rect>
      </property>
      <property name="text">
-      <string>x0:</string>
+      <string>Odcinek</string>
      </property>
     </widget>
-    <widget class="QLabel" name="label_y">
+    <widget class="QRadioButton" name="wypelnienie">
      <property name="geometry">
       <rect>
-       <x>30</x>
-       <y>199</y>
-       <width>16</width>
-       <height>16</height>
+       <x>10</x>
+       <y>100</y>
+       <width>131</width>
+       <height>17</height>
       </rect>
      </property>
      <property name="text">
-      <string>y0: </string>
+      <string>Wypełnienie kolorem</string>
      </property>
     </widget>
-    <widget class="QLabel" name="labelX">
+    <widget class="QPushButton" name="pushButton">
      <property name="geometry">
       <rect>
-       <x>60</x>
-       <y>170</y>
-       <width>47</width>
-       <height>13</height>
+       <x>50</x>
+       <y>120</y>
+       <width>121</width>
+       <height>23</height>
       </rect>
      </property>
      <property name="text">
-      <string>0</string>
+      <string>KOLOR WYPEŁNIENIA</string>
      </property>
     </widget>
-    <widget class="QLabel" name="labelY">
+    <widget class="QPushButton" name="pushButton_3">
      <property name="geometry">
       <rect>
-       <x>60</x>
-       <y>200</y>
-       <width>47</width>
-       <height>13</height>
+       <x>50</x>
+       <y>60</y>
+       <width>121</width>
+       <height>23</height>
       </rect>
      </property>
      <property name="text">
-      <string>0</string>
-     </property>
-    </widget>
-    <widget class="QLabel" name="label_x_2">
-     <property name="geometry">
-      <rect>
-       <x>110</x>
-       <y>170</y>
-       <width>16</width>
-       <height>16</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>x1: </string>
-     </property>
-    </widget>
-    <widget class="QLabel" name="label_y_2">
-     <property name="geometry">
-      <rect>
-       <x>110</x>
-       <y>200</y>
-       <width>16</width>
-       <height>16</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>y1: </string>
-     </property>
-    </widget>
-    <widget class="QLabel" name="labelX_2">
-     <property name="geometry">
-      <rect>
-       <x>130</x>
-       <y>170</y>
-       <width>47</width>
-       <height>13</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>0</string>
-     </property>
-    </widget>
-    <widget class="QLabel" name="labelY_2">
-     <property name="geometry">
-      <rect>
-       <x>130</x>
-       <y>200</y>
-       <width>47</width>
-       <height>13</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>0</string>
+      <string>KOLOR ODCINKA</string>
      </property>
     </widget>
    </widget>

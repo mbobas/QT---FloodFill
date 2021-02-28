@@ -8,6 +8,7 @@
 #include <math.h>
 #include <QTextStream>
 #include <bits/stdc++.h>
+#include <QColorDialog>
 using namespace std;
 
 namespace Ui {
@@ -44,13 +45,28 @@ private slots:
 
 
 
+    void on_radioButton_clicked();
+
+    void on_wypelnienie_clicked();
+
+    void on_pushButton_2_clicked();
+
+    void on_pushButton_clicked();
+
+    void on_pushButton_3_clicked();
+
 private:
     // ui to wskaźnik za pomocą którego mamy dostęp
     // do elementów interfejsu użytkownika
     Ui::MainWindow *ui;
 
     QImage *img; 
-    int width, height, startX, startY,x0, y0, x1, y1;
+    int width, height, startX, startY,x0, y0, x1, y1,option;
+    int newColorR=53;
+    int newColorG=151;
+    int newColorB=70;
+    int colorToChangeR=0, colorToChangeG=0, colorToChangeB=0;
+    int sectionColorR=255, sectionColorG=255, sectionColorB=255;
 
     void clean();
     void drawPixel(int x, int y, unsigned char red = 255, unsigned char green = 255, unsigned char blue = 255);
